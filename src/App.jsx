@@ -59,7 +59,7 @@ async function readAudioFrom(file) {
   const samplingRate=16000
   const audioCTX= new AudioContext({sampleRate:samplingRate})
  const response = await file.arrayBuffer()
- const decoded = await audioCTX.decodedAudioData(response)
+ const decoded = await audioCTX.decodeAudioData(response)
  const audio = decoded.getChannelData(0)
  return audio
 }
@@ -79,8 +79,9 @@ async function handleFormSubmission() {
     w-full'>
     <section className='min-h-screen flex flex-col '>
      <Header></Header>
-     {output?(<Information/>):loading?(<Transcribing/>):
-     isAudioAvailable ?(<FileDisplay handleAudioReset ={handleAudioReset}
+     {output?(<Information output={output}/>):loading?(<Transcribing/>):
+     isAudioAvailable ?(<FileDisplay handleFormSubmission={handleFormSubmission}
+       handleAudioReset ={handleAudioReset}
       file ={file}
       audioStream={audioStream}/>):( <HomePage 
        setFile={setFile}
